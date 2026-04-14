@@ -1,0 +1,27 @@
+cluster.name: ${cluster_name}
+
+# 원래: instance_id (EC2 메타데이터에서 읽어 sed 로 치환)
+# 변경: 서버 IP 기반 노드 이름을 Terraform 이 직접 주입
+node.name: ${node_name}
+
+node.roles: ["${role}", "remote_cluster_client"]
+
+# 원래: network.host: _ec2_, _local_  (EC2 전용 자동 IP 감지)
+# 변경: 모든 인터페이스 바인딩 + 실제 서버 IP 를 publish 주소로 명시
+network.host: 0.0.0.0
+network.publish_host: ${server_ip}
+http.port: 9200
+
+bootstrap.memory_lock: false
+xpack.security.enabled: false
+
+# 원래: discovery.seed_providers: ec2  (EC2 API 로 같은 SG 의 노드 자동 탐색)
+# 변경: 마스터 노드 IP 목록을 직접 지정 (EC2 없이 동일한 효과)
+discovery.seed_hosts: ${jsonencode(all_master_ips)}
+
+# 원래: instance_id 기반 (cloud-init 에서 sed 로 치환)
+# 변경: seed 노드 IP 기반 이름을 Terraform 이 직접 주입
+cluster.initial_master_nodes: ["${initial_master_node}"]
+
+path.data: /usr/share/elasticsearch/data
+path.logs: /usr/share/elasticsearch/logs

@@ -1,0 +1,44 @@
+metricbeat.config.modules:
+  path: $${path.config}/modules.d/*.yml
+  reload.period: 10s
+  reload.enabled: false
+metricbeat.max_start_delay: 10s
+metricbeat.modules:
+  - module: system
+    metricsets:
+      - cpu
+      - load
+      - memory
+      - network
+      - process
+      - process_summary
+      - uptime
+      - socket_summary
+    enabled: false
+    period: 10s
+    processes: ['.*']
+    cpu.metrics:  ["percentages","normalized_percentages"]
+    core.metrics: ["percentages"]
+  - module: elasticsearch
+    xpack.enabled: true
+    metricsets:
+      - cluster_stats
+      - node_stats
+      - index
+      - index_recovery
+      - index_summary
+      - shard
+    period: 10s
+    # 원래: localhost:9200 (--net host 이므로 로컬 직접 접근) → 그대로 유지
+    # Linux 서버에서도 --net host 로 실행하므로 localhost 사용 가능
+    hosts: ["http://localhost:9200"]
+
+output.elasticsearch:
+  hosts: ["${monitoring_elasticsearch_host}"]
+
+logging.to_files: true
+logging.files:
+  path: /services/metricbeat/logs
+  name: metricbeat
+  keepfiles: 7
+  permissions: 0640
