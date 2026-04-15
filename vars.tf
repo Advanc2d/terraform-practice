@@ -25,18 +25,18 @@ variable "servers" {
 
   default = {
     master_seed = {
-      ip       = "10.20.110.80"
-      port     = "50022"
-      user     = "dream"
-      password = "src2x8HJ2TZD"
+      ip       = ""
+      port     = ""
+      user     = ""
+      password = ""
     }
     master_eligible = [
-      { ip = "10.20.110.81", port = "50022", user = "dream", password = "4KwtMvAMbvK5" },
-      { ip = "10.20.110.82", port = "50022", user = "dream", password = "UCxcXB07rwQB" },
+      { ip = "", port = "", user = "", password = "" },
+      { ip = "", port = "", user = "", password = "" },
     ]
     data = [
-      { ip = "10.20.110.83", port = "50022", user = "dream", password = "rrK91AvLX4j8" },
-      { ip = "10.20.110.84", port = "50022", user = "dream", password = "Y8gjGveWi4Pg" },
+      { ip = "", port = "", user = "", password = "" },
+      { ip = "", port = "", user = "", password = "" },
     ]
   }
 }
@@ -65,4 +65,21 @@ variable "monitoring_elasticsearch_host" {
   type        = string
   default     = "http://localhost:9200"
   description = "메트릭을 전송할 모니터링용 ES 주소"
+}
+
+variable "kibana_server" {
+  type = object({
+    ip       = string
+    port     = number
+    user     = string
+    password = string
+  })
+  sensitive   = true
+  description = "Kibana 를 실행할 서버 접속 정보"
+  default = {
+    ip       = ""   # Kibana 서버 IP 입력
+    port     = ""
+    user     = ""
+    password = ""
+  }
 }

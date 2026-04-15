@@ -87,3 +87,19 @@ module "data" {
 
   depends_on = [module.master_seed, module.master_eligible]
 }
+
+module "kibana" {
+  source = "./modules/elastic-kibana"
+
+  server_ip    = var.kibana_server.ip
+  ssh_port     = var.kibana_server.port
+  ssh_user     = var.kibana_server.user
+  ssh_password = var.kibana_server.password
+
+  kibana_version = var.es_version   # ES 버전과 동일하게 맞춤
+
+  # seed master 노드 IP 를 ES 연결 주소로 사용
+  es_seed_ip = var.servers.master_seed.ip
+
+  depends_on = [module.master_seed]
+}

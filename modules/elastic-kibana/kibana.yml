@@ -1,0 +1,6 @@
+server.host: "0.0.0.0"
+server.port: 5601
+server.name: "kibana-${server_ip}"
+
+# Elasticsearch seed master 노드에 연결
+elasticsearch.hosts: ["http://${es_seed_ip}:9200"]
