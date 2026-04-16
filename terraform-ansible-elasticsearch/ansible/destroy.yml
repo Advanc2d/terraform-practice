@@ -1,0 +1,29 @@
+---
+- name: 배포된 클러스터 리소스 및 컨테이너 전체 삭제
+  hosts: all
+  become: yes
+  tasks:
+    - name: 생성된 컨테이너 종료 및 삭제
+      docker_container:
+        name: "{{ item }}"
+        state: absent
+      loop:
+        - elasticsearch
+        - metricbeat
+        - kibana
+      ignore_errors: yes
+
+    - name: 서비스 구성 및 데이터 디렉토리 완전 삭제
+      file:
+        path: /services
+        state: absent
+      ignore_errors: yes
+
+    # 참고: Docker(docker.io) 패키지는 다른 운영 환경에 영향을 줄 수 있어
+    # 기본적으로는 삭제하지 않고 남겨두도록 구성되어 있습니다.
+    # 만약 Docker 자체도 지우길 원하신다면 주석을 해제할 수 있습니다.
+    # - name: Docker 패키지 삭제
+    #   apt:
+    #     name: docker.io
+    #     state: absent
+    #     purge: yes

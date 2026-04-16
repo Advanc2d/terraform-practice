@@ -1,0 +1,29 @@
+---
+- name: 모든 노드 공통 설정
+  hosts: all
+  roles:
+    - common
+
+- name: Elasticsearch Master 노드 구성
+  hosts: masters
+  roles:
+    - elastic
+    - metricbeat
+
+- name: Elasticsearch Data 노드 구성
+  hosts: data
+  roles:
+    - elastic
+    - metricbeat
+
+- name: Kibana 노드 구성
+  hosts: kibana
+  tasks:
+    - name: Kibana 실행 (단일 태스크)
+      docker_container:
+        name: kibana
+        image: docker.elastic.co/kibana/kibana:8.12.2
+        state: started
+        network_mode: host
+        env:
+          ELASTICSEARCH_HOSTS: "http://{{ groups['masters'][0] }}:9200"
