@@ -53,6 +53,7 @@ sudo mkdir -p /services/elasticsearch/config
 sudo mkdir -p /services/metricbeat/logs
 sudo mkdir -p /services/metricbeat/config
 sudo chown -R 1000:0 /services/elasticsearch
+sudo chown -R 1000:0 /services/metricbeat
 
 # ── [4] docker build ──────────────────────────────────────────
 # 원래: cd /services/elasticsearch && docker build . -t phm-elasticsearch:8.12.2

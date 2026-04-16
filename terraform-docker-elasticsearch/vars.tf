@@ -25,18 +25,18 @@ variable "servers" {
 
   default = {
     master_seed = {
-      ip       = ""
-      port     = ""
-      user     = ""
-      password = ""
+      ip       = "10.20.110.80"
+      port     = "50022"
+      user     = "dream"
+      password = "src2x8HJ2TZD"
     }
     master_eligible = [
-      { ip = "", port = "", user = "", password = "" },
-      { ip = "", port = "", user = "", password = "" },
+      { ip = "10.20.110.81", port = "50022", user = "dream", password = "4KwtMvAMbvK5" },
+      { ip = "10.20.110.82", port = "50022", user = "dream", password = "UCxcXB07rwQB" },
     ]
     data = [
-      { ip = "", port = "", user = "", password = "" },
-      { ip = "", port = "", user = "", password = "" },
+      { ip = "10.20.110.83", port = "50022", user = "dream", password = "rrK91AvLX4j8" },
+      { ip = "10.20.110.84", port = "50022", user = "dream", password = "Y8gjGveWi4Pg" },
     ]
   }
 }
@@ -77,9 +77,9 @@ variable "kibana_server" {
   sensitive   = true
   description = "Kibana 를 실행할 서버 접속 정보"
   default = {
-    ip       = ""   # Kibana 서버 IP 입력
-    port     = ""
-    user     = ""
-    password = ""
+    ip       = "10.20.110.84"   # Kibana 서버 IP 입력
+    port     = 50022
+    user     = "dream"
+    password = "Y8gjGveWi4Pg"
   }
 }

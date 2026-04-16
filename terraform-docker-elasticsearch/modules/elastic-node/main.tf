@@ -146,12 +146,14 @@ resource "null_resource" "run_metricbeat" {
     content = templatefile("${path.module}/metricbeat.yml", {
       monitoring_elasticsearch_host = var.monitoring_elasticsearch_host
     })
-    destination = "/services/metricbeat/config/metricbeat.yml"
+    destination = "/tmp/metricbeat.yml"
   }
 
   # 원래: chown root:root + docker run metricbeat
   provisioner "remote-exec" {
     inline = [
+      "sudo mkdir -p /services/metricbeat/config",
+      "sudo mv /tmp/metricbeat.yml /services/metricbeat/config/metricbeat.yml",
       "sudo chown root:root /services/metricbeat/config/metricbeat.yml",
       "sudo docker rm -f metricbeat 2>/dev/null || true",
       join(" ", [
